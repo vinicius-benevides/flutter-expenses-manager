@@ -37,11 +37,23 @@ class TransactionCard extends StatelessWidget {
           transaction.formattedDate,
           style: Theme.of(context).textTheme.bodyLarge,
         ),
-        trailing: IconButton(
-          icon: Icon(Icons.delete),
-          color: Theme.of(context).colorScheme.error,
-          onPressed: () => onDelete(transaction.id),
-        ),
+        trailing: MediaQuery.of(context).size.width > 500
+            ? TextButton.icon(
+                icon: Icon(
+                  Icons.delete,
+                  color: Theme.of(context).colorScheme.error,
+                ),
+                label: const Text('Excluir'),
+                style: TextButton.styleFrom(
+                  foregroundColor: Theme.of(context).colorScheme.error,
+                ),
+                onPressed: () => onDelete(transaction.id),
+              )
+            : IconButton(
+                icon: Icon(Icons.delete),
+                color: Theme.of(context).colorScheme.error,
+                onPressed: () => onDelete(transaction.id),
+              ),
       ),
     );
   }

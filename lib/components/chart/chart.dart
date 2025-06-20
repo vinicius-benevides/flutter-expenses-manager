@@ -1,5 +1,6 @@
 import 'package:expenses_manager/components/chart/chart_bar.dart';
 import 'package:expenses_manager/models/transaction.dart';
+import 'package:expenses_manager/utils/is_same_day.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -14,12 +15,7 @@ class Chart extends StatelessWidget {
       double totalSum = 0.0;
 
       for (var i = 0; i < recentTransactions.length; i++) {
-        bool sameDay =
-            recentTransactions[i].date.day == weekDay.day &&
-            recentTransactions[i].date.month == weekDay.month &&
-            recentTransactions[i].date.year == weekDay.year;
-
-        if (sameDay) {
+        if (isSameDay(recentTransactions[i].date, weekDay)) {
           totalSum += recentTransactions[i].value;
         }
       }
