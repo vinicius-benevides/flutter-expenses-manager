@@ -1,3 +1,4 @@
+import 'package:expenses_manager/utils/format_currency.dart';
 import 'package:intl/intl.dart';
 
 class Transaction {
@@ -7,7 +8,7 @@ class Transaction {
   final DateTime date;
 
   get formattedValue {
-    return 'R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
+    return formatCurrency(value);
   }
 
   get formattedDate {
@@ -20,4 +21,11 @@ class Transaction {
     required this.value,
     required this.date,
   });
+}
+
+class GroupedTransaction {
+  final String day;
+  final double value;
+
+  const GroupedTransaction({required this.day, required this.value});
 }
