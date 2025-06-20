@@ -5,7 +5,6 @@ import 'package:expenses_manager/components/transaction_form/transaction_form.da
 import 'package:expenses_manager/components/transaction_list/transaction_list.dart';
 import 'package:expenses_manager/models/transaction.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 main() => runApp(ExpensesApp());
 
@@ -14,11 +13,6 @@ class ExpensesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-
     return MaterialApp(
       title: 'Despesas Pessoais',
       debugShowCheckedModeBanner: false,
@@ -55,6 +49,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Transaction> _transactions = [];
+  bool _showChart = false;
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -94,9 +89,21 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+
     final appBar = AppBar(
       title: const Text('Despesas Pessoais'),
       actions: [
+        if (isLandscape)
+          IconButton(
+            icon: Icon(_showChart ? Icons.bar_chart : Icons.list),
+            onPressed: () {
+              setState(() {
+                _showChart = !_showChart;
+              });
+            },
+          ),
         IconButton(
           icon: const Icon(Icons.add),
           onPressed: () => _openTransactionFormModal(context),
@@ -105,9 +112,9 @@ class _HomePageState extends State<HomePage> {
     );
 
     final availableHeight =
-        MediaQuery.of(context).size.height -
+        mediaQuery.size.height -
         appBar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
+        mediaQuery.padding.top;
 
     return Scaffold(
       appBar: appBar,
@@ -115,17 +122,19 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              height: availableHeight * 0.3,
-              child: Chart(recentTransactions: _recentTransactions),
-            ),
-            SizedBox(
-              height: availableHeight * 0.7,
-              child: TransactionList(
-                transactions: _transactions,
-                onDelete: _deleteTransaction,
+            if (!_showChart || !isLandscape)
+              SizedBox(
+                height: availableHeight * (isLandscape ? 0.7 : 0.3),
+                child: Chart(recentTransactions: _recentTransactions),
               ),
-            ),
+            if (!_showChart || !isLandscape)
+              SizedBox(
+                height: availableHeight * 0.7,
+                child: TransactionList(
+                  transactions: _transactions,
+                  onDelete: _deleteTransaction,
+                ),
+              ),
           ],
         ),
       ),
