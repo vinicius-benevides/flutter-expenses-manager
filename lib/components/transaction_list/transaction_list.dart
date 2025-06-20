@@ -18,17 +18,14 @@ class TransactionList extends StatelessWidget {
     final sortedTransactions = [...transactions]
       ..sort((a, b) => b.date.compareTo(a.date));
 
-    return SizedBox(
-      height: 400,
-      child: sortedTransactions.isEmpty
-          ? const EmptyList()
-          : ListView.builder(
-              itemCount: sortedTransactions.length,
-              itemBuilder: (ctx, index) {
-                final tr = sortedTransactions[index];
-                return TransactionCard(transaction: tr, onDelete: onDelete);
-              },
-            ),
-    );
+    return sortedTransactions.isEmpty
+        ? const EmptyList()
+        : ListView.builder(
+            itemCount: sortedTransactions.length,
+            itemBuilder: (ctx, index) {
+              final tr = sortedTransactions[index];
+              return TransactionCard(transaction: tr, onDelete: onDelete);
+            },
+          );
   }
 }
