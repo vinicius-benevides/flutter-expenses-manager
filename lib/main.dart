@@ -137,24 +137,26 @@ class _HomePageState extends State<HomePage> {
             : appBar.preferredSize.height) -
         mediaQuery.padding.top;
 
-    final body = SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (_showChart || !isLandscape)
-            SizedBox(
-              height: availableHeight * (isLandscape ? 0.8 : 0.3),
-              child: Chart(recentTransactions: _recentTransactions),
-            ),
-          if (!_showChart || !isLandscape)
-            SizedBox(
-              height: availableHeight * (isLandscape ? 0.9 : 0.7),
-              child: TransactionList(
-                transactions: _transactions,
-                onDelete: _deleteTransaction,
+    final body = SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (_showChart || !isLandscape)
+              SizedBox(
+                height: availableHeight * (isLandscape ? 0.8 : 0.3),
+                child: Chart(recentTransactions: _recentTransactions),
               ),
-            ),
-        ],
+            if (!_showChart || !isLandscape)
+              SizedBox(
+                height: availableHeight * (isLandscape ? 0.9 : 0.7),
+                child: TransactionList(
+                  transactions: _transactions,
+                  onDelete: _deleteTransaction,
+                ),
+              ),
+          ],
+        ),
       ),
     );
 
