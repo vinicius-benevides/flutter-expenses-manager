@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:expenses_manager/components/chart.dart';
-import 'package:expenses_manager/components/transaction_form.dart';
-import 'package:expenses_manager/components/transaction_list.dart';
+import 'package:expenses_manager/components/chart/chart.dart';
+import 'package:expenses_manager/components/transaction_form/transaction_form.dart';
+import 'package:expenses_manager/components/transaction_list/transaction_list.dart';
 import 'package:expenses_manager/models/transaction.dart';
 import 'package:flutter/material.dart';
 
