@@ -44,65 +44,72 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: 'Título'),
-              controller: _titleController,
-              onSubmitted: (_) => _submitForm(),
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Valor (R\$)'),
-              controller: _valueController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              onSubmitted: (_) => _submitForm(),
-            ),
-            SizedBox(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: 'Título'),
+                controller: _titleController,
+                onSubmitted: (_) => _submitForm(),
+              ),
+              TextField(
+                decoration: InputDecoration(labelText: 'Valor (R\$)'),
+                controller: _valueController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                onSubmitted: (_) => _submitForm(),
+              ),
+              SizedBox(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      _selectedDate == null
+                          ? 'Nenhuma data selecionada!'
+                          : 'Data Selecionada: ${DateFormat('dd/MM/yyyy').format(_selectedDate!)}',
+                    ),
+                    TextButton(
+                      onPressed: _showDatePicker,
+                      child: Text(
+                        'Selecionar Data',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    _selectedDate == null
-                        ? 'Nenhuma data selecionada!'
-                        : 'Data Selecionada: ${DateFormat('dd/MM/yyyy').format(_selectedDate!)}',
-                  ),
-                  TextButton(
-                    onPressed: _showDatePicker,
+                  ElevatedButton(
+                    onPressed: _submitForm,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                    ),
                     child: Text(
-                      'Selecionar Data',
+                      'Nova Transação',
+                      textAlign: TextAlign.right,
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: _submitForm,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  child: Text(
-                    'Nova Transação',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
