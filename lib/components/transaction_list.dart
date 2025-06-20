@@ -2,9 +2,14 @@ import 'package:expenses_manager/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 class TransactionList extends StatelessWidget {
-  const TransactionList({super.key, required this.transactions});
+  const TransactionList({
+    super.key,
+    required this.transactions,
+    required this.onDelete,
+  });
 
   final List<Transaction> transactions;
+  final void Function(String) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +63,11 @@ class TransactionList extends StatelessWidget {
                     subtitle: Text(
                       tr.formattedDate,
                       style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).colorScheme.error,
+                      onPressed: () => onDelete(tr.id),
                     ),
                   ),
                 );
