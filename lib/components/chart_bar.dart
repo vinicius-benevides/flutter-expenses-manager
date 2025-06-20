@@ -18,7 +18,10 @@ class ChartBar extends StatelessWidget {
     return Column(
       spacing: 5,
       children: [
-        FittedBox(child: Text(formatCurrency(value))),
+        SizedBox(
+          height: 20,
+          child: FittedBox(child: Text(formatCurrency(value))),
+        ),
         SizedBox(
           height: 60,
           width: 10,
