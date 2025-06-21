@@ -1,5 +1,6 @@
 import 'package:expenses_manager/components/chart/chart_bar.dart';
 import 'package:expenses_manager/models/transaction.dart';
+import 'package:expenses_manager/utils/capitalize.dart';
 import 'package:expenses_manager/utils/is_same_day.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,21 +22,17 @@ class Chart extends StatelessWidget {
       }
 
       return GroupedTransaction(
-        day: DateFormat.E().format(weekDay)[0],
+        day: capitalize(DateFormat.E('pt_BR').format(weekDay).substring(0, 3)),
         value: totalSum,
       );
     }).reversed.toList();
   }
 
-  double get _maxValue {
-    return groupedTransactions.fold(
-      0.0,
-      (max, tr) => tr.value > max ? tr.value : max,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final data = groupedTransactions;
+    final max = data.fold(0.0, (max, tr) => tr.value > max ? tr.value : max);
+
     return Card(
       elevation: 6,
       margin: const EdgeInsets.all(20),
@@ -45,13 +42,13 @@ class Chart extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.end,
           spacing: 10,
-          children: groupedTransactions.map((tr) {
+          children: data.map((tr) {
             return Flexible(
               fit: FlexFit.tight,
               child: ChartBar(
                 label: tr.day,
                 value: tr.value,
-                percentage: _maxValue == 0 ? 0 : tr.value / _maxValue,
+                percentage: max == 0 ? 0 : tr.value / max,
               ),
             );
           }).toList(),

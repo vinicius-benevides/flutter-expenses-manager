@@ -25,7 +25,7 @@ class ChartBar extends StatelessWidget {
               child: FittedBox(
                 child: Text(
                   formatCurrency(value),
-                  style: TextStyle(fontSize: 16),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ),

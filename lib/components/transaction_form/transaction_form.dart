@@ -22,8 +22,16 @@ class _TransactionFormState extends State<TransactionForm> {
     final value = double.tryParse(_valueController.text) ?? 0;
 
     if (title.isEmpty || value <= 0 || _selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Preencha todos os campos corretamente')),
+      );
       return;
     }
+
+    _titleController.clear();
+    _valueController.clear();
+
+    FocusScope.of(context).unfocus();
 
     widget.onSubmit(title, value, _selectedDate!);
   }
@@ -50,7 +58,10 @@ class _TransactionFormState extends State<TransactionForm> {
               AdaptativeTextField(
                 label: 'Valor (R\$)',
                 controller: _valueController,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                  signed: false,
+                ),
                 onSubmitted: (_) => _submitForm(),
               ),
               AdaptativeDatePicker(

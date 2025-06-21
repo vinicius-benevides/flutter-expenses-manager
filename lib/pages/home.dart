@@ -1,11 +1,10 @@
-import 'dart:math';
-
 import 'package:expenses_manager/components/chart/chart.dart';
 import 'package:expenses_manager/components/transaction_form/transaction_form.dart';
 import 'package:expenses_manager/components/transaction_list/transaction_list.dart';
 import 'package:expenses_manager/models/transaction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final uuid = Uuid();
   final List<Transaction> _transactions = [];
   bool _showChart = false;
 
@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
-      id: Random().nextDouble().toString(),
+      id: uuid.v4(),
       title: title,
       value: value,
       date: date,
@@ -132,6 +132,7 @@ class _HomePageState extends State<HomePage> {
             appBar: appBar,
             body: body,
             floatingActionButton: FloatingActionButton(
+              tooltip: 'Adicionar transação',
               child: const Icon(Icons.add),
               onPressed: () => _openTransactionFormModal(context),
             ),

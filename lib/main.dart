@@ -1,7 +1,13 @@
 import 'package:expenses_manager/pages/home.dart';
+import 'package:expenses_manager/theme/main.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-main() => runApp(ExpensesApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('pt_BR', null);
+  runApp(const ExpensesApp());
+}
 
 class ExpensesApp extends StatelessWidget {
   const ExpensesApp({super.key});
@@ -12,25 +18,7 @@ class ExpensesApp extends StatelessWidget {
       title: 'Despesas Pessoais',
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
-      theme: ThemeData(
-        fontFamily: 'Quicksand',
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 52, 119, 55),
-          foregroundColor: Colors.white,
-        ),
-        textTheme: const TextTheme(
-          titleLarge: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-          bodyLarge: TextStyle(fontFamily: 'Quicksand', fontSize: 16),
-        ),
-        colorScheme: ColorScheme.fromSeed(
-          primary: Color.fromARGB(255, 66, 151, 70),
-          seedColor: Color.fromARGB(255, 66, 151, 70),
-        ),
-      ),
+      theme: buildTheme(),
     );
   }
 }

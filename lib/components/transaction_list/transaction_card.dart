@@ -15,7 +15,7 @@ class TransactionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
       child: ListTile(
         leading: CircleAvatar(
           radius: 30,
@@ -25,6 +25,8 @@ class TransactionCard extends StatelessWidget {
               child: Text(
                 transaction.formattedValue,
                 style: Theme.of(context).textTheme.bodyLarge,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
@@ -50,7 +52,7 @@ class TransactionCard extends StatelessWidget {
                 onPressed: () => onDelete(transaction.id),
               )
             : IconButton(
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 color: Theme.of(context).colorScheme.error,
                 onPressed: () => onDelete(transaction.id),
               ),
